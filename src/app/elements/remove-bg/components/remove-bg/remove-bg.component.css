@@ -1,0 +1,47 @@
+.drop-container {
+    border: 2px dashed #aaa;
+    border-radius: 5px;
+    padding: 5rem 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.drop-text {
+    font-weight: 300;
+}
+
+.image-preview {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.remove-background-btn, .download-btn {
+    margin-top: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.dflex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+    min-width: 226px;
+    background-color: #1FF425;
+    color: #FFF;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    border-radius: 99px;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding: 0.75rem 2rem;
+}

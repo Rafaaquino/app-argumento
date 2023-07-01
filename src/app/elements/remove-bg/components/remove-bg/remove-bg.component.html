@@ -1,0 +1,44 @@
+<!--<div>
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  <button (click)="removeBackground()">Remover Plano de Fundo</button>
+</div>
+<div *ngIf="imageSrc">
+  <h3>Imagem Original</h3>
+  <img [src]="imageSrc" alt="Imagem Original" width="300" />
+</div>
+<div *ngIf="backgroundRemovedImageSrc">
+  <h3>Imagem com Plano de Fundo Removido</h3>
+  <img [src]="backgroundRemovedImageSrc" alt="Imagem com Plano de Fundo Removido" width="300" />
+</div>-->
+
+
+<section>
+  <div class="container">
+    <div class="row">
+      <h2>Faça upload de uma imagem para remover o fundo</h2>
+    </div>
+    <div class="row">
+      <div class="drop-container dflex-center" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+        <label for="arquivo">Faça upload</label>
+        <input class="btn btn-primary" type="file" name="arquivo" id="arquivo" (change)="onFileSelected($event)" accept="image/*">
+        <p class="drop-text">Ou arraste uma imagem aqui</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div *ngIf="imageSrc" class="image-preview">
+  <img [src]="imageSrc" alt="Imagem">
+</div>
+
+<button class="remove-background-btn" (click)="removeBackground()" [disabled]="!imageSrc">Remover Plano de Fundo</button>
+
+<div *ngIf="backgroundRemovedImageSrc" class="image-preview">
+  <img [src]="backgroundRemovedImageSrc" alt="Imagem sem Plano de Fundo">
+  <button class="download-btn" (click)="downloadBackgroundRemovedImage()">Download</button>
+</div>
+
+<div *ngIf="downloadedImageSrc" class="image-preview">
+  <img [src]="downloadedImageSrc" alt="Imagem Baixada">
+</div>

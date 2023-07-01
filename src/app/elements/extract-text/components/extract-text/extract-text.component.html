@@ -1,0 +1,7 @@
+<input type="file" (change)="onFileSelected($event)">
+<button (click)="extractText()" [disabled]="isProcessing || !selectedImage">Extrair Texto</button>
+
+<div *ngIf="extractedText">
+  <h2>Texto Extraído:</h2>
+  <p>{{ extractedText }}</p>
+</div>
