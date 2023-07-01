@@ -12,6 +12,7 @@ export class RemoveBgComponent implements OnInit {
   imageSrc: any | ArrayBuffer | null = null ;
   backgroundRemovedImageSrc: any | ArrayBuffer | null = null;
   downloadedImageSrc: any | ArrayBuffer | null = null;
+  isload: boolean = false;
   isDraggingOver = false;
 
   constructor(private removeBgService: RemoveBgService, private sanitizer: DomSanitizer) { }
@@ -26,7 +27,9 @@ export class RemoveBgComponent implements OnInit {
     if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
       const file = event.dataTransfer.files[0];
       this.previewImage(file);
+      this.removeBackground();
     }
+
   }
 
   onDragOver(event: DragEvent) {
@@ -56,6 +59,7 @@ export class RemoveBgComponent implements OnInit {
         this.imageSrc = e.target?.result;
       };
       reader.readAsDataURL(file);
+      this.removeBackground();
     }
   }
 
@@ -71,6 +75,7 @@ export class RemoveBgComponent implements OnInit {
         this.downloadedImageSrc = this.sanitizer.bypassSecurityTrustUrl(this.backgroundRemovedImageSrc);
         console.log('img', response, "url", this.backgroundRemovedImageSrc);
         this.downloadBackgroundRemovedImage();
+        this.isload = true;
       }, (error) => {
         console.log('Erro ao remover o plano de fundo:', error);
       });

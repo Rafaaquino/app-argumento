@@ -12,33 +12,39 @@
 </div>-->
 
 
-<section>
+<section class="section">
   <div class="container">
-    <div class="row">
-      <h2>Faça upload de uma imagem para remover o fundo</h2>
-    </div>
-    <div class="row">
-      <div class="drop-container dflex-center" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
-        <label for="arquivo">Faça upload</label>
-        <input class="btn btn-primary" type="file" name="arquivo" id="arquivo" (change)="onFileSelected($event)" accept="image/*">
-        <p class="drop-text">Ou arraste uma imagem aqui</p>
+      <div class="row txt-center">
+        <div class="col-10">
+        <h2>Faça upload de uma imagem para remover o fundo</h2>
+        <div *ngIf="!isload else result" class="drop-container dflex-center" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+          <label for="arquivo">Fazer upload</label>
+          <input class="btn btn-primary" type="file" name="arquivo" id="arquivo" (change)="onFileSelected($event)" accept="image/*">
+          <p class="drop-text pt-2">Ou arraste uma imagem aqui</p>
+        </div>
+        <ng-template #result>
+          <div class="container">
+            <div class="col-12">
+              <p-tabView>
+                <p-tabPanel header="Imagem original">
+                  <div class="result">
+                    <div *ngIf="imageSrc" class="image-preview">
+                      <img class="img-fluid" [src]="imageSrc" alt="Imagem">
+                    </div>
+                  </div>
+                </p-tabPanel>
+                <p-tabPanel header="Imagem sem fundo">
+                  <div class="result">
+                    <div *ngIf="downloadedImageSrc" class="image-preview">
+                      <img class="img-fluid" [src]="downloadedImageSrc" alt="Imagem Baixada">
+                    </div>
+                  </div>
+                </p-tabPanel>
+            </p-tabView>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
 </section>
-
-
-<div *ngIf="imageSrc" class="image-preview">
-  <img [src]="imageSrc" alt="Imagem">
-</div>
-
-<button class="remove-background-btn" (click)="removeBackground()" [disabled]="!imageSrc">Remover Plano de Fundo</button>
-
-<div *ngIf="backgroundRemovedImageSrc" class="image-preview">
-  <img [src]="backgroundRemovedImageSrc" alt="Imagem sem Plano de Fundo">
-  <button class="download-btn" (click)="downloadBackgroundRemovedImage()">Download</button>
-</div>
-
-<div *ngIf="downloadedImageSrc" class="image-preview">
-  <img [src]="downloadedImageSrc" alt="Imagem Baixada">
-</div>

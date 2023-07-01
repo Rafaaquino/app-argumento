@@ -6,7 +6,9 @@ import { RemoveBgService } from './service/remove-bg.service';
 import { RemoveBgComponent } from './components/remove-bg/remove-bg.component';
 import { HttpClientModule } from '@angular/common/http';
 
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule} from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import {ButtonModule} from 'primeng/button';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ButtonModule
+    ButtonModule,
+    ProgressSpinnerModule,
+    TabViewModule
   ],
   providers: [
     RemoveBgService
