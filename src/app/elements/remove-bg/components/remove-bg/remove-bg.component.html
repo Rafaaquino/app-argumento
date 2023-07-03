@@ -1,16 +1,3 @@
-<!--<div>
-  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
-  <button (click)="removeBackground()">Remover Plano de Fundo</button>
-</div>
-<div *ngIf="imageSrc">
-  <h3>Imagem Original</h3>
-  <img [src]="imageSrc" alt="Imagem Original" width="300" />
-</div>
-<div *ngIf="backgroundRemovedImageSrc">
-  <h3>Imagem com Plano de Fundo Removido</h3>
-  <img [src]="backgroundRemovedImageSrc" alt="Imagem com Plano de Fundo Removido" width="300" />
-</div>-->
-
 
 <section class="section">
   <div class="container">
@@ -18,25 +5,53 @@
         <div class="col-10">
         <h2>Faça upload de uma imagem para remover o fundo</h2>
         <div *ngIf="!isload else result" class="drop-container dflex-center" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
-          <label for="arquivo">Fazer upload</label>
-          <input class="btn btn-primary" type="file" name="arquivo" id="arquivo" (change)="onFileSelected($event)" accept="image/*">
-          <p class="drop-text pt-2">Ou arraste uma imagem aqui</p>
+          <div *ngIf="!loading else skeleton">
+            <label for="arquivo">Fazer upload</label>
+            <input class="btn btn-primary" type="file" name="arquivo" id="arquivo" (change)="onFileSelected($event)" accept="image/*">
+            <p class="drop-text pt-2">Ou arraste uma imagem aqui</p>
+          </div>
+          <ng-template #skeleton>
+            <p-skeleton styleClass="p-mb-2"></p-skeleton>
+            <p-skeleton width="10rem" styleClass="p-mb-2"></p-skeleton>
+            <p-skeleton width="5rem" styleClass="p-mb-2"></p-skeleton>
+            <p-skeleton height="2rem" styleClass="p-mb-2"></p-skeleton>
+            <p-skeleton width="10rem" height="4rem"></p-skeleton>
+          </ng-template>
         </div>
+
         <ng-template #result>
           <div class="container">
             <div class="col-12">
               <p-tabView>
-                <p-tabPanel header="Imagem original">
-                  <div class="result">
-                    <div *ngIf="imageSrc" class="image-preview">
-                      <img class="img-fluid" [src]="imageSrc" alt="Imagem">
+                <p-tabPanel header="Imagem sem fundo">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="result">
+                        <div *ngIf="downloadedImageSrc" class="image-preview">
+                          <img class="img-fluid border" [src]="downloadedImageSrc" alt="Imagem Baixada">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <button pButton type="button mt-2" label="Baixar Imagem" icon="pi pi-download" iconPos="left" (click)="downloadBackgroundRemovedImage()" ></button>
+                      <p> NOME: {{ imgFile.name }}</p>
+                      <p> TAMANHO: {{ aroundMath(imgFile.size) }} px</p>
                     </div>
                   </div>
                 </p-tabPanel>
-                <p-tabPanel header="Imagem sem fundo">
-                  <div class="result">
-                    <div *ngIf="downloadedImageSrc" class="image-preview">
-                      <img class="img-fluid" [src]="downloadedImageSrc" alt="Imagem Baixada">
+                <p-tabPanel header="Imagem original">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="result">
+                        <div *ngIf="imageSrc" class="image-preview">
+                          <img class="img-fluid border" [src]="imageSrc" alt="Imagem">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <button pButton type="button mt-2" label="Remover nova imagem" icon="pi pi-upload" iconPos="left" (click)="restart()" ></button>
+                      <p> NOME: {{ imgFile.name }}</p>
+                      <p> TAMANHO: {{ aroundMath(imgFile.size) }}px</p>
                     </div>
                   </div>
                 </p-tabPanel>
@@ -45,6 +60,9 @@
           </div>
         </ng-template>
       </div>
+
+      <p-toast position="bottom-center"></p-toast>
+
     </div>
   </div>
 </section>

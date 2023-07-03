@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { RemoveBgService } from '../../service/remove-bg.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-remove-bg',
@@ -12,10 +13,15 @@ export class RemoveBgComponent implements OnInit {
   imageSrc: any | ArrayBuffer | null = null ;
   backgroundRemovedImageSrc: any | ArrayBuffer | null = null;
   downloadedImageSrc: any | ArrayBuffer | null = null;
+  imgFile: any;
+  loading: boolean = false
   isload: boolean = false;
   isDraggingOver = false;
 
-  constructor(private removeBgService: RemoveBgService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private removeBgService: RemoveBgService,
+    private sanitizer: DomSanitizer,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
@@ -23,9 +29,11 @@ export class RemoveBgComponent implements OnInit {
   onFileDrop(event: DragEvent) {
     event.preventDefault();
     this.isDraggingOver = false;
+    console.log("entrou no onFileDrop");
 
     if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
       const file = event.dataTransfer.files[0];
+      this.imgFile = file
       this.previewImage(file);
       this.removeBackground();
     }
@@ -35,14 +43,18 @@ export class RemoveBgComponent implements OnInit {
   onDragOver(event: DragEvent) {
     event.preventDefault();
     this.isDraggingOver = true;
+    console.log("entrou no onDragOver");
   }
 
   onDragLeave(event: DragEvent) {
     event.preventDefault();
     this.isDraggingOver = false;
+    console.log("entrou no onDragOver");
   }
 
   private previewImage(file: File) {
+    console.log("file", file);
+    this.imgFile = file
     const reader = new FileReader();
     reader.onload = (e) => {
       this.imageSrc = e.target?.result;
@@ -60,6 +72,7 @@ export class RemoveBgComponent implements OnInit {
       };
       reader.readAsDataURL(file);
       this.removeBackground();
+      this.loading = true
     }
   }
 
@@ -74,10 +87,22 @@ export class RemoveBgComponent implements OnInit {
         this.backgroundRemovedImageSrc = URL.createObjectURL(response);
         this.downloadedImageSrc = this.sanitizer.bypassSecurityTrustUrl(this.backgroundRemovedImageSrc);
         console.log('img', response, "url", this.backgroundRemovedImageSrc);
-        this.downloadBackgroundRemovedImage();
+        this.loading = false;
         this.isload = true;
       }, (error) => {
+        this.loading = false;
         console.log('Erro ao remover o plano de fundo:', error);
+
+        if(error.status == 402){
+          this.showError("Conta sem crédito");
+        }
+        else if (error.status == 400) {
+          this.showError("Tamanho da imagem muito grande!");
+        }
+        else {
+          this.showError("Ocorreu um erro ao ler a imagem");
+        }
+
       });
   }
 
@@ -93,7 +118,21 @@ export class RemoveBgComponent implements OnInit {
         console.log(response)
       }, (error) => {
         console.log('Erro ao fazer o download da imagem sem o background:', error);
+
       });
+  }
+
+  restart() {
+    this.isload = false;
+  }
+
+  showError(msg: string) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: msg});
+  }
+
+  aroundMath(valor: number){
+    const pixels = (valor / 1024);
+    return Math.round(pixels);
   }
 
 }

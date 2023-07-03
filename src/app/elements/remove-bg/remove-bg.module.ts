@@ -9,6 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule} from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -20,10 +23,13 @@ import { TabViewModule } from 'primeng/tabview';
     BrowserAnimationsModule,
     ButtonModule,
     ProgressSpinnerModule,
-    TabViewModule
+    TabViewModule,
+    ToastModule,
+    SkeletonModule
   ],
   providers: [
-    RemoveBgService
+    RemoveBgService,
+    MessageService
   ]
 })
 export class RemoveBgModule { }

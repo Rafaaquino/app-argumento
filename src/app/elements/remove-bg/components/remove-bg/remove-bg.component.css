@@ -64,8 +64,36 @@ h2 {
   padding-bottom: 20px;
 }
 
+p {
+  padding-top: 15px;
+  font-weight: bold;
+  font-size: 0.8rem
+}
+
 .result {
   max-width: 320px;
   object-position: relative;
   object-fit: contain;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.p-button, .p-button:enabled:hover {
+  background: #1FF425!important;
+  border-color: #1de924!important;
+}
+
+.p-tabview-title {
+  background: #1FF425!important;
+  border-color: #1de924!important;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-ink-bar{
+  background-color: #000!important
+}
+
+.border {
+  border: solid 0.5px #f8f8f8;
 }
