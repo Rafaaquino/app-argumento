@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { urlConfig } from '../config/url.config';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class RemoveBgService {
 
-  private api_key = environment.api_key; //chave de API Remove.bg
+  api_key = environment.api_key; //chave de API Remove.bg
   host = urlConfig.host; //host api
   apiUrl = urlConfig.url_removebg; //URL Remove.bg
 
